@@ -7,6 +7,12 @@ Detailgrad in einem Tool Ihrer Wahl (Maya, Cinema 4D, 3DS Max, Blender, …) und
 der vorgestellten Programmlösung aus der Vorlesung und visualisieren Sie es in Java. Sollte es Schwierigkeiten beim Einlesen des
 Formats geben, ergründen Sie die Problematik und passen den Code gegebenenfalls an.
 
+Teilaufgaben:
+-Projektbeschreibung erstellen x
+-Erstellen eines OpenGL 3D Objektes x
+-Modellierung des Objektes, speichern als OBJ-Format o
+-Laden mit der Programmloesung aus der Vorlesung und visualisiere diese in Java x
+
 #Teil 2: Partikel- oder Schwarmsimulation in 3D
 Entwickeln Sie basierend auf Ihrer Projektbeschreibung die Partikel- oder Schwarmsimulation in Java und OpenGL in 3D. Gerne
 dürfen Sie dazu die zur Verfügung gestellten Programmlösungen verwenden und erweitern. Ihr Projekt sollte beide
@@ -16,3 +22,11 @@ kann in einer kleinen Präsentation oder einem Video durchgeführt werden. Die A
 Version und eine aus Teil 1 erweiterte Projektdokumentation.
 Die vollständige Abgabe als zip-Datei ist bis zum 19.06.2024 möglich. Abgabe per als Upload in den Belegordner mit den Namen
 der Autoren im Titel „<Name1, Vorname1>; <Name2, Vorname2>; <Name3, Vorname3>“.
+
+Teilaufgaben:
+-Schwarmsimulation erstellen in Java und OpenGL x
+-Fragment Shader Nutzen x
+-Vorstellung in einem Video oder als Praesentation x
+-Abgabe bis 19.06. mit korrekter bennenung x
+
+HINWEIS: Vorlesungsmaterialien verwenden ist erlaubt.
