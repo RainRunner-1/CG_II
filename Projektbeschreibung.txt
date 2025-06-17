@@ -1,0 +1,14 @@
+Computergrafik II
+Beleg: Schwarmsimulation
+Thema: Zombieschwarm
+
+Gruppenmitglieder:
+-Maximilian Fürmann
+-Giancarlo da Cruz Morais
+-Roman Gürtler
+
+Beschreibung:
+Unser Beleg im Fach Computergrafik soll einen Zombieschwarm darstellen, welcher im Angezeigten Fenster herumlaeuft.
+In OpenGL wird der Zombie als Quader mit einer Kugel dargestellt.
+Das Zombiemodell mit hoeherem Detailgrad wurde in Blender erstellt und zeigt die Laufrichtung besser, durch das Hinzufuegen erstellter Arme.
+Der Shader soll den Zombie in einem Gruenton faerben.
