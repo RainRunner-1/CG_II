@@ -1,5 +1,5 @@
 # CG_II
-#Teil 1: OpenGL
+#Teil 1: OpenGL 30%
 Konzipieren Sie eine Projektbeschreibung zum Thema Partikel- oder Schwarmsimulation in 3D und stellen Sie dieses Ihren
 Dozenten im Rahmen des Praktikums persönlich vor. Erstellen Sie direkt in OpenGL ein 3D-Objekt, dass für Ihre Simulation dienen
 wird. Hier können Buffer-Objects genutzt werden, müssen aber nicht. Modellieren Sie das gleiche Objekt mit einem höheren
@@ -9,11 +9,11 @@ Formats geben, ergründen Sie die Problematik und passen den Code gegebenenfalls
 
 Teilaufgaben:  
 -Projektbeschreibung erstellen o  
--Erstellen eines OpenGL 3D Objektes x  
+-Erstellen eines OpenGL 3D Objektes o  
 -Modellierung des Objektes, speichern als OBJ-Format o  
 -Laden mit der Programmloesung aus der Vorlesung und visualisiere diese in Java x  
 
-#Teil 2: Partikel- oder Schwarmsimulation in 3D
+#Teil 2: Partikel- oder Schwarmsimulation in 3D 70%
 Entwickeln Sie basierend auf Ihrer Projektbeschreibung die Partikel- oder Schwarmsimulation in Java und OpenGL in 3D. Gerne
 dürfen Sie dazu die zur Verfügung gestellten Programmlösungen verwenden und erweitern. Ihr Projekt sollte beide
 Objektvarianten (OpenGL direkt und extern modelliert) wahlweise nutzen können. Verwenden Sie für die Visualisierung einen
