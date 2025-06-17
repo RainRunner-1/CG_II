@@ -7,8 +7,8 @@ Detailgrad in einem Tool Ihrer Wahl (Maya, Cinema 4D, 3DS Max, Blender, …) und
 der vorgestellten Programmlösung aus der Vorlesung und visualisieren Sie es in Java. Sollte es Schwierigkeiten beim Einlesen des
 Formats geben, ergründen Sie die Problematik und passen den Code gegebenenfalls an.
 
-Teilaufgaben:
--Projektbeschreibung erstellen x  
+Teilaufgaben:  
+-Projektbeschreibung erstellen o  
 -Erstellen eines OpenGL 3D Objektes x  
 -Modellierung des Objektes, speichern als OBJ-Format o  
 -Laden mit der Programmloesung aus der Vorlesung und visualisiere diese in Java x  
@@ -23,7 +23,7 @@ Version und eine aus Teil 1 erweiterte Projektdokumentation.
 Die vollständige Abgabe als zip-Datei ist bis zum 19.06.2024 möglich. Abgabe per als Upload in den Belegordner mit den Namen
 der Autoren im Titel „<Name1, Vorname1>; <Name2, Vorname2>; <Name3, Vorname3>“.
 
-Teilaufgaben:
+Teilaufgaben:  
 -Schwarmsimulation erstellen in Java und OpenGL x  
 -Fragment Shader Nutzen x  
 -Vorstellung in einem Video oder als Praesentation x  
