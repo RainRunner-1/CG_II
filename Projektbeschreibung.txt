@@ -9,6 +9,6 @@ Gruppenmitglieder:
 
 Beschreibung:
 Unser Beleg im Fach Computergrafik soll einen Zombieschwarm darstellen, welcher im Angezeigten Fenster herumlaeuft.
-In OpenGL wird der Zombie als Quader mit einer Kugel dargestellt.
+In OpenGL wird der Zombie vereinfacht dargestellt, das Modell aehnelt einem Minecraft Zombie.
 Das Zombiemodell mit hoeherem Detailgrad wurde in Blender erstellt und zeigt die Laufrichtung besser, durch das Hinzufuegen erstellter Arme.
 Der Shader soll den Zombie in einem Gruenton faerben.
