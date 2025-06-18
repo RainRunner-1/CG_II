@@ -11,7 +11,7 @@ Teilaufgaben:
 -Projektbeschreibung erstellen o  
 -Erstellen eines OpenGL 3D Objektes o  
 -Modellierung des Objektes, speichern als OBJ-Format o  
--Laden mit der Programmloesung aus der Vorlesung und visualisiere diese in Java x  
+-Laden mit der Programmloesung aus der Vorlesung und visualisiere diese in Java o  
 
 #Teil 2: Partikel- oder Schwarmsimulation in 3D 70%
 Entwickeln Sie basierend auf Ihrer Projektbeschreibung die Partikel- oder Schwarmsimulation in Java und OpenGL in 3D. Gerne
@@ -24,7 +24,7 @@ Die vollständige Abgabe als zip-Datei ist bis zum 19.06.2024 möglich. Abgabe p
 der Autoren im Titel „<Name1, Vorname1>; <Name2, Vorname2>; <Name3, Vorname3>“.
 
 Teilaufgaben:  
--Schwarmsimulation erstellen in Java und OpenGL x  
+-Schwarmsimulation erstellen in Java und OpenGL o  
 -Fragment Shader Nutzen x  
 -Vorstellung in einem Video oder als Praesentation x  
 -Abgabe bis 19.06. mit korrekter bennenung x  
