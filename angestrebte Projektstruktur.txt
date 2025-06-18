@@ -12,3 +12,6 @@ src/
 │       └── models/
 │           ├── fish.obj             (Hochdetailliertes Modell)
 │           └── simple_cube.obj
+├── lib/                                    # LWJGL 3-Bibliotheken (falls nicht per Maven)
+├── pom.xml                                 # Maven-Konfiguration
+└── README.md                               # Projektbeschreibung
