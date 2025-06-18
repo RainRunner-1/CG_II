@@ -1,0 +1,14 @@
+src/
+├── main/
+│   ├── java/
+│   │   ├── SwarmSimulation.java      (Hauptklasse)
+│   │   ├── ShaderProgram.java       (Shader-Loader)
+│   │   ├── Boid.java                (Schwarmlogik)
+│   │   └── POGL.java                (OpenGL-Hilfsfunktionen)
+│   └── resources/
+│       ├── shaders/
+│       │   ├── fragment.glsl        (Custom Shader)
+│       │   └── vertex.glsl
+│       └── models/
+│           ├── fish.obj             (Hochdetailliertes Modell)
+│           └── simple_cube.obj
