@@ -7,7 +7,7 @@ public class Boid {
     private static final float MAX_SPEED = 0.3f;
     private static final float NEIGHBOR_RADIUS = 5.0f;
 
-    public void update(List<Boid> swarm, float currentTime) { // Zeit als Parameter hinzufügen
+    public void update(List<Boid> swarm, float currentTime) {
         List<Boid> neighbors = getNeighbors(swarm);
         
         Vector3f alignment = new Vector3f();
@@ -33,16 +33,20 @@ public class Boid {
 
             // 3. Separation - Abstand halten
             for (Boid b : neighbors) {
-                Vector3f diff = new Vector3f(position);
-                diff.subtract(b.position);
+                // KORREKTUR: Neue Vector3f erstellen und Werte kopieren
+                Vector3f diff = new Vector3f(
+                    position.x - b.position.x,
+                    position.y - b.position.y,
+                    position.z - b.position.z
+                );
                 float dist = position.distance(b.position);
-                diff.scale(1f / (dist * dist));
+                diff.scale(1f / (dist * dist + 0.001f)); // +0.001f verhindert Division durch 0
                 separation.add(diff);
             }
             separation.scale(0.05f);
         }
 
-        // Grundbewegung mit leichtem Schwanken - Zeit als Parameter verwenden
+        // Grundbewegung mit leichtem Schwanken
         velocity.add(new Vector3f(
             (float)Math.sin(currentTime * 0.5f) * 0.01f,
             0,

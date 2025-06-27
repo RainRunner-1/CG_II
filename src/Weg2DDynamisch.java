@@ -1,7 +1,6 @@
 
 
 import java.util.ArrayList;
-import Vektor2D.java;
 
 public class Weg2DDynamisch {
 	private ArrayList<Vektor2D> liste;

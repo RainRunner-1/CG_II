@@ -1,5 +1,3 @@
-
-
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_LINES;
@@ -35,11 +33,15 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
-import LineareAlgebra;
-import Vektor2D;
-import Model;
-import Weg2DDynamisch;
-import Model.FaceQuad;
+// KORRIGIERTE IMPORTS - entferne Semikolons nach Klassennamen
+// import LineareAlgebra;     // FALSCH
+// import Vektor2D;           // FALSCH
+// import Model;              // FALSCH  
+// import Weg2DDynamisch;     // FALSCH
+// import Model.FaceQuad;     // FALSCH - innere Klasse Problem
+
+// Da alle Klassen im gleichen Package sind, sind keine Imports nötig!
+// LineareAlgebra, Vektor2D, Model, Weg2DDynamisch sind bereits verfügbar
 
 // POGL = "Primitives of OpenGL" 
 public class POGL {
@@ -383,7 +385,8 @@ public class POGL {
 							Float.valueOf(lineElements[3]),
 							Float.valueOf(lineElements[4]));
 				}
-				model.facesQuads.add(new FaceQuad(vertexIndices, texCoordsIndices, normalIndices));
+				// KORREKTUR: Verwende Model.FaceQuad statt FaceQuad
+                model.facesQuads.add(new Model.FaceQuad(vertexIndices, texCoordsIndices, normalIndices));
 			}
 		}
 		reader.close();
@@ -432,7 +435,8 @@ public class POGL {
 	
 	public static void renderObjectVierecke(Model model) {
 		glBegin(GL_QUADS);
-		for (FaceQuad face : model.facesQuads) {
+		for (Model.FaceQuad face : model.facesQuads) {
+			// Vertex 1
 			if (face.normal != null) {
 				Vector3f n1 = model.normals.get((int) face.normal.x - 1);
 				glNormal3f(n1.x, n1.y, n1.z);
@@ -444,6 +448,7 @@ public class POGL {
 			Vector3f v1 = model.vertices.get((int) face.vertex.x - 1);
 			glVertex3f(v1.x, v1.y, v1.z);
 
+			// Vertex 2
 			if (face.normal != null) {
 				Vector3f n2 = model.normals.get((int) face.normal.y - 1);
 				glNormal3f(n2.x, n2.y, n2.z);
@@ -455,6 +460,7 @@ public class POGL {
 			Vector3f v2 = model.vertices.get((int) face.vertex.y - 1);
 			glVertex3f(v2.x, v2.y, v2.z);
 
+			// Vertex 3
 			if (face.normal != null) {
 				Vector3f n3 = model.normals.get((int) face.normal.z - 1);
 				glNormal3f(n3.x, n3.y, n3.z);
@@ -466,6 +472,7 @@ public class POGL {
 			Vector3f v3 = model.vertices.get((int) face.vertex.z - 1);
 			glVertex3f(v3.x, v3.y, v3.z);
 
+			// Vertex 4 - Das war komplett abgeschnitten!
 			if (face.normal != null) {
 				Vector3f n4 = model.normals.get((int) face.normal.w - 1);
 				glNormal3f(n4.x, n4.y, n4.z);
@@ -476,10 +483,8 @@ public class POGL {
 			}
 			Vector3f v4 = model.vertices.get((int) face.vertex.w - 1);
 			glVertex3f(v4.x, v4.y, v4.z);
-
 		}
 		glEnd();
-		glPopMatrix();
 	}
 	
 	public static void renderObjectWithPath(float x, float y, float r, float g, float b, float a, int radius, Weg2DDynamisch path) {

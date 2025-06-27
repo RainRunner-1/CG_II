@@ -208,7 +208,7 @@ public class ZombieSwarmLWJGL2 {
         }
 
         // Schwarm erstellen
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 123; i++) {
             Boid boid = new Boid();
             boid.position.set(
                 (float)(Math.random() * 10 - 5),
