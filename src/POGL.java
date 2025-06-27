@@ -39,6 +39,7 @@ import LineareAlgebra;
 import Vektor2D;
 import Model;
 import Weg2DDynamisch;
+import Model.FaceQuad;
 
 // POGL = "Primitives of OpenGL" 
 public class POGL {

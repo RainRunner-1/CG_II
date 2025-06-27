@@ -1,10 +1,13 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Boid {
     public Vector3f position = new Vector3f();
     public Vector3f velocity = new Vector3f();
     private static final float MAX_SPEED = 0.3f;
     private static final float NEIGHBOR_RADIUS = 5.0f;
 
-    public void update(List<Boid> swarm) {
+    public void update(List<Boid> swarm, float currentTime) { // Zeit als Parameter hinzufügen
         List<Boid> neighbors = getNeighbors(swarm);
         
         Vector3f alignment = new Vector3f();
@@ -39,9 +42,9 @@ public class Boid {
             separation.scale(0.05f);
         }
 
-        // Grundbewegung mit leichtem Schwanken
+        // Grundbewegung mit leichtem Schwanken - Zeit als Parameter verwenden
         velocity.add(new Vector3f(
-            (float)Math.sin(time * 0.5f) * 0.01f,
+            (float)Math.sin(currentTime * 0.5f) * 0.01f,
             0,
             0.02f
         ));

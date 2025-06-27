@@ -6,7 +6,10 @@ import org.lwjgl.util.glu.GLU;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.IntBuffer;
+import org.lwjgl.BufferUtils;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
 
 public class ZombieSwarmLWJGL2 {
     // 1. Vector3f Klasse (erweitert)
@@ -73,7 +76,7 @@ public class ZombieSwarmLWJGL2 {
         private static final float MAX_SPEED = 0.5f;
         private static final float NEIGHBOR_RADIUS = 8.0f;
 
-        public void update(List<Boid> swarm) {
+        public void update(List<Boid> swarm, float currentTime) { // Zeit als Parameter
             Vector3f alignment = new Vector3f();
             Vector3f cohesion = new Vector3f();
             Vector3f separation = new Vector3f();
@@ -138,7 +141,43 @@ public class ZombieSwarmLWJGL2 {
     private static Model zombieModel;
     private static final float WORLD_BOUNDS = 30f;
 
+    // Shader-Variablen
+    private static int zombieShaderProgram;
+    private static int timeUniform;
+    
+    // Zombie Vertex Shader
+    private static String zombieVertexShader = ""
+        + "#version 130\n"
+        + "uniform float time;\n"
+        + "void main() {"
+        + "   vec4 pos = gl_Vertex;"
+        + "   pos.y += sin(time * 3.0 + pos.x * 2.0) * 0.1;"  // Wackel-Effekt
+        + "   gl_Position = gl_ModelViewProjectionMatrix * pos;" 
+        + "}";
+
+    // Zombie Fragment Shader - animierte grüne Zombie-Haut
+    private static String zombieFragmentShader = ""
+        + "#version 130\n"
+        + "uniform float time;\n"
+        + "void main() {" 
+        + "   float pulse = sin(time * 2.0) * 0.5 + 0.5;"
+        + "   vec3 zombieColor = vec3(0.2 + pulse * 0.3, 0.6 + pulse * 0.2, 0.2);"
+        + "   gl_FragColor = vec4(zombieColor, 1.0);" 
+        + "}";
+
+    // Boden Shader - Schachbrettmuster
+    private static String groundFragmentShader = ""
+        + "#version 130\n"
+        + "void main() {"
+        + "   vec2 pos = gl_FragCoord.xy * 0.1;"
+        + "   float pattern = mod(floor(pos.x) + floor(pos.y), 2.0);"
+        + "   vec3 color = mix(vec3(0.2, 0.15, 0.1), vec3(0.4, 0.35, 0.3), pattern);"
+        + "   gl_FragColor = vec4(color, 1.0);"
+        + "}";
+
     public static void main(String[] args) {
+        System.out.println("Willkommen zur Zombie Simulation!");
+        System.out.println("Z drücken um das Modell umzuschalten");
         try {
             initialize();
             runMainLoop();
@@ -157,6 +196,9 @@ public class ZombieSwarmLWJGL2 {
 
         glEnable(GL_DEPTH_TEST);
         glClearColor(0.1f, 0.15f, 0.2f, 1.0f);
+        
+        // Shader initialisieren
+        prepareZombieShader();
 
         try {
             zombieModel = POGL.loadModel(new File("assets/Zombie2.obj"));
@@ -181,15 +223,68 @@ public class ZombieSwarmLWJGL2 {
             swarm.add(boid);
         }
     }
+    
+    private static void prepareZombieShader() {
+        zombieShaderProgram = glCreateProgram();
+
+        // Vertex Shader
+        int vertShader = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(vertShader, zombieVertexShader);
+        glCompileShader(vertShader);
+        String vertLog = glGetShaderInfoLog(vertShader, 1024);
+        if (!vertLog.isEmpty()) {
+            System.out.println("Vertex Shader Log: " + vertLog);
+        }
+        glAttachShader(zombieShaderProgram, vertShader);
+
+        // Fragment Shader
+        int fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(fragShader, zombieFragmentShader);
+        glCompileShader(fragShader);
+        String fragLog = glGetShaderInfoLog(fragShader, 1024);
+        if (!fragLog.isEmpty()) {
+            System.out.println("Fragment Shader Log: " + fragLog);
+        }
+        glAttachShader(zombieShaderProgram, fragShader);
+
+        glLinkProgram(zombieShaderProgram);
+        
+        // Program Link Status prüfen
+        String programLog = glGetProgramInfoLog(zombieShaderProgram, 1024);
+        if (!programLog.isEmpty()) {
+            System.out.println("Program Link Log: " + programLog);
+        }
+        
+        // Uniform-Location für Zeit
+        timeUniform = glGetUniformLocation(zombieShaderProgram, "time");
+    }
+
+    private static void checkShaderCompile(int shader) {
+        IntBuffer compiled = BufferUtils.createIntBuffer(1);
+        glGetShader(shader, GL_COMPILE_STATUS, compiled);
+        if (compiled.get(0) == GL_FALSE) {
+            System.err.println("Shader Kompilierungsfehler:");
+            System.err.println(glGetShaderInfoLog(shader, 1024));
+        }
+    }
+
+    private static boolean zKeyPressed = false;
 
     private static void runMainLoop() {
         while (!Display.isCloseRequested()) {
             time += 0.016f;
 
-            if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
+            // KORRIGIERTER Code für Z-Taste
+            boolean currentZKeyState = Keyboard.isKeyDown(Keyboard.KEY_Z);
+            
+            if (currentZKeyState && !zKeyPressed) {
+                // Taste wurde gerade gedrückt (Flanke)
                 useObjModel = !useObjModel && (zombieModel != null);
-                while (Keyboard.isKeyDown(Keyboard.KEY_Z));
+                System.out.println("Zombie-Modus umgeschaltet: " + 
+                    (useObjModel ? "OBJ-Modell" : "Primitive Würfel"));
             }
+            
+            zKeyPressed = currentZKeyState; // Zustand speichern
 
             updateSwarm();
             renderFrame();
@@ -201,18 +296,18 @@ public class ZombieSwarmLWJGL2 {
 
     private static void updateSwarm() {
         for (Boid boid : swarm) {
-            boid.update(swarm);
+            boid.update(swarm, time); // Zeit als Parameter übergeben
             keepInBounds(boid);
         }
     }
 
     private static void keepInBounds(Boid boid) {
         float turnForce = 0.1f;
-        if (boid.position.x < -WORLD_BOUNDS) boid.velocity.x += turnForce;
-        if (boid.position.x > WORLD_BOUNDS) boid.velocity.x -= turnForce;
-        if (boid.position.z < -WORLD_BOUNDS) boid.velocity.z += turnForce;
-        if (boid.position.z > WORLD_BOUNDS) boid.velocity.z -= turnForce;
-        boid.position.y = 0; // Auf Boden halten
+        if (boid.position.x < -WORLD_BOUNDS+2) boid.velocity.x += turnForce;
+        if (boid.position.x > WORLD_BOUNDS+2) boid.velocity.x -= turnForce;
+        if (boid.position.z < -WORLD_BOUNDS+2) boid.velocity.z += turnForce;
+        if (boid.position.z > WORLD_BOUNDS+2) boid.velocity.z -= turnForce;
+        boid.position.y = 0.5f; // Zombies stehen AUF dem Boden (halbe Höhe)
     }
 
     private static void renderFrame() {
@@ -224,28 +319,41 @@ public class ZombieSwarmLWJGL2 {
         GLU.gluPerspective(60, (float)Display.getWidth()/Display.getHeight(), 0.1f, 300);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        GLU.gluLookAt(0, 40, 50, 0, 0, 0, 0, 1, 0);
-
-        // Boden
+        
+        //Kamera-Position ändern
+        GLU.gluLookAt(
+            0, 25, 50,    // Kamera-Position (x, y, z)
+            0, 0, 0,      // Blickrichtung/Ziel (x, y, z)
+            0, 1, 0       // Up-Vektor (x, y, z)
+        );
+        
+        // Boden (ohne Shader)
+        glUseProgram(0); // Zurück zur Fixed Function Pipeline
         drawGround();
 
-        // Zombies
+        // Zombies mit Shader
+        glUseProgram(zombieShaderProgram);
+        glUniform1f(timeUniform, time); // Zeit für Animation
+
         for (Boid boid : swarm) {
             glPushMatrix();
-            glTranslatef(boid.position.x, boid.position.y, boid.position.z);
+            glTranslatef(boid.position.x, boid.position.y + 0.5f, boid.position.z);
             
             float angle = (float)Math.toDegrees(Math.atan2(boid.velocity.x, boid.velocity.z));
             glRotatef(angle, 0, 1, 0);
 
             if (useObjModel && zombieModel != null) {
+                // KORREKTUR: Zombie-Modell um 90 Grad drehen, damit es nach vorne schaut
+                glRotatef(90, 0, 1, 0); // Zusätzliche Rotation um Y-Achse
                 glScalef(0.5f, 0.5f, 0.5f);
-                glColor3f(0.3f, 0.7f, 0.3f);
                 POGL.renderObject(zombieModel);
             } else {
                 renderPrimitiveZombie();
             }
             glPopMatrix();
         }
+        
+        glUseProgram(0); // Shader deaktivieren
     }
 
     private static void drawGround() {
